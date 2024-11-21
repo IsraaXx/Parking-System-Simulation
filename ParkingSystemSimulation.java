@@ -1,5 +1,3 @@
-
-
 import java.io.*;
 import java.util.*;
 
@@ -18,14 +16,14 @@ public class ParkingSystemSimulation {
         gates.add(new Gate(parkingLot, "Gate 3", fileName));
 
         // Start all gate threads
-        for (Gate gate : gates) {
+        for (Gate gate : gates) {    //Starts all gate threads, initiating their run() methods, which handle cars arriving at their respective gates.
             gate.start();
         }
 
-        // Wait for all gate threads to finish
+        // ensures the main thread waits for each gate thread to finish before proceeding.
         for (Gate gate : gates) {
             try {
-                gate.join();
+                gate.join();      //Ensures all gates have finished serving their cars before displaying the final results.
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -33,7 +31,7 @@ public class ParkingSystemSimulation {
 
         
        //  Print final simulation results
-        int numOfCars = 0;
+        int numOfCars = 0;     // total number of cars served by summing the cars handled by all gates.
         for(Gate gate : gates) {
             numOfCars += gate.getNumOfCars();
         }
