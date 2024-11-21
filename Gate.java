@@ -2,7 +2,7 @@
 import java.io.*;
 import java.util.*;
 
-class Gate extends Thread {
+class Gate extends Thread {          //Each gate runs as its own thread, simulating multiple parking gates working simultaneously
     private ParkingLot parkingLot;
     private String gateName;
     private List<Car> cars;
@@ -20,14 +20,14 @@ class Gate extends Thread {
         cars.sort(Comparator.comparingInt(Car::getArrivalTime));
 
         // Start each car thread
-        for (Car car : cars) {
+        for (Car car : cars) {    //Each car runs concurrently and attempts to park.
             car.start();
         }
         // Wait for all cars to finish parking
         for (Car car : cars) {
-            try {
-                car.join();
-                carsServedCnt++;  // Increment count when each car per gate is done
+            try {             
+                car.join();    //Ensures that the gate keeps track of cars until they’ve completed parking.
+                carsServedCnt++;  // Increments the counter to record that the car has been fully served by this gate
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -52,10 +52,10 @@ class Gate extends Thread {
         }
         return carList;
     }
-    public int getNumOfCars(){
+    public int getNumOfCars(){        //Returns the total number of cars assigned to this gate.
         return cars.size();
     }
-    public int getCarsServedCount() {  
+    public int getCarsServedCount() {  //Returns the count of cars that have been served (parked) by this gate.
         return carsServedCnt;
     }
     public String getGateName() { 
