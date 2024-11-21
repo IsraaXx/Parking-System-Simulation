@@ -26,14 +26,15 @@ public class Car extends Thread {
     @Override
     public void run() {
         try {
-            Thread.sleep(arrivalTime * 1000L); // Simulate arrival delay
+            Thread.sleep(arrivalTime * 1000L);         // Simulate arrival delay
             System.out.println("Car " + carId + " from " + gateName + " arrived at time " + arrivalTime);
 
-            synchronized (parkingLot) {
-                parkingLot.addToQueue(this);
-            }
+            synchronized (parkingLot) {          // Adds the car to the parking lot's waiting queue.
+                parkingLot.addToQueue(this);     // Cars need to wait in a queue if all parking spots are occupied.
+            }                                    // Synchronized to make sure no two cars try to add themselves to the queue simultaneously 
+                                                 // so we can track which car arrived first and has the right to park first
 
-            parkingLot.enterAndPark(this);
+            parkingLot.enterAndPark(this);       // enterAndPark Handles the process of acquiring a parking spot
 
             // Simulate parking duration
             Thread.sleep(duration * 1000L);
