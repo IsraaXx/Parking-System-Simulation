@@ -1,14 +1,14 @@
 
-import java.util.concurrent.Semaphore;
+
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class ParkingLot {
-    private final Semaphore parkingSpots;
+    private final mySemaphore parkingSpots;
     private final BlockingQueue<Car> waitingQueue;
 
     public ParkingLot(int totalSpots) {
-        this.parkingSpots = new Semaphore(totalSpots, true); // Fair semaphore ensures FIFO order
+        this.parkingSpots = new mySemaphore(totalSpots);
         this.waitingQueue = new LinkedBlockingQueue<>();
     }
 
